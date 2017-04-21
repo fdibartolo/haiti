@@ -9,6 +9,21 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script>
+      $(document).ready(function() {
+        $('#feed').click(function(e) {
+          e.preventDefault();
+          $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: "/feed",
+            data: "{\"key\":\"haitimorfeta\"}",
+            dataType: "json"
+          });
+        });
+      });
+    </script>
   </head>
   <body>
     <div class="container"><br>
@@ -24,7 +39,7 @@
         </div>
         <div class="col-3 text-center">
           <br>
-          <a class="btn btn-success" href="#" role="button">Feed Now &nbsp; <span style="font-size:130%"><span class="ion-fork"></span>&nbsp;<span class="ion-knife"></span></span></a>
+          <a id="feed" class="btn btn-success" href="#" role="button">Feed Now &nbsp; <span style="font-size:130%"><span class="ion-fork"></span>&nbsp;<span class="ion-knife"></span></span></a>
           <br><br>
           <a class="btn btn-info" href="/video" role="button">Live Video &nbsp; <span class="ion-ios-videocam" style="font-size:130%"></span></a>
         </div>
