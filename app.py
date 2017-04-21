@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 logging.basicConfig(filename='log/haiti.log', format='%(asctime)s %(levelname)s:%(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.DEBUG)
 
-@app.route("/")
+@app.route('/')
 def index():
   file = open("log/haiti.log", "r")
   lines = file.readlines()
@@ -29,6 +29,7 @@ def valid_request(key):
 
 @app.route('/video')
 def video():
+  logging.info('HAITI: streaming video now!')
   return render_template('video.html')
 
 @app.route('/video_feed')
