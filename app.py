@@ -1,10 +1,8 @@
 from flask import Flask, request, render_template
-import time
 import logging
-import RPi.GPIO as GPIO
+from servo import Servo
 app = Flask(__name__)
 
-GPIO.setmode(GPIO.BOARD)
 logging.basicConfig(filename='log/haiti.log', format='%(asctime)s %(levelname)s:%(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.DEBUG)
 
 @app.route("/")
@@ -16,22 +14,9 @@ def index():
 @app.route('/feed', methods=['POST'])
 def feed():
   if valid_request(request.get_json()['key']):
-    GPIO.setup(3, GPIO.OUT)
-    pwm = GPIO.PWM(3, 50)
-    pwm.start(7.5)
-
-    try:
-      pwm.ChangeDutyCycle(2.5)  # turn towards 2.5 = 0 degree
-      time.sleep(0.5)
-      pwm.ChangeDutyCycle(7.5) # turn towards 7.5 = 90 degree
-      time.sleep(1)
-      logging.info('HAITI: Ad-hoc feed has run succesfully!')
-    except Exception, e:
-      logging.error('HAITI: Ad-hoc feed could not run: %s', e)
-    finally:
-      pwm.stop()
-      GPIO.cleanup()
-      return 'Ok'
+    success, message = Servo.open()
+    logging.info(message) if success else logging.error(message)
+    return message
   else:
     logging.warning('HAITI: Invalid key for feed action!')
     return 'Error'
