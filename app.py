@@ -7,11 +7,6 @@ app = Flask(__name__)
 GPIO.setmode(GPIO.BOARD)
 logging.basicConfig(filename='log/haiti.log', format='%(asctime)s %(levelname)s:%(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.DEBUG)
 
-@app.route("/hello")
-def hello():
-  logging.info('logging hello!')
-  return "Hello Haiti!"
-
 @app.route("/")
 def index():
   file = open("log/haiti.log", "r")
@@ -43,6 +38,11 @@ def feed():
 
 def valid_request(key):
   return key == 'haitimorfeta'
+
+@app.route("/test")
+def test():
+  logging.info('logging test!')
+  return "Testing 1 2 3!"
 
 if __name__ == "__main__":
   app.run(host='0.0.0.0', port=5000, debug=True)
