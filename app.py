@@ -11,7 +11,7 @@ logging.basicConfig(filename='log/haiti.log', format='%(asctime)s %(levelname)s:
 def index():
   file = open("log/haiti.log", "r")
   lines = file.readlines()
-  return render_template('index.html', lines=lines[::-1])
+  return render_template('index.html', lines=filter(lambda l: 'HAITI:' in l, lines)[::-1])
 
 @app.route('/feed', methods=['POST'])
 def feed():
@@ -25,15 +25,15 @@ def feed():
       time.sleep(0.5)
       pwm.ChangeDutyCycle(7.5) # turn towards 7.5 = 90 degree
       time.sleep(1)
-      logging.info('Ad-hoc feed has run succesfully')
+      logging.info('HAITI: Ad-hoc feed has run succesfully!')
     except Exception, e:
-      logging.error('Ad-hoc feed could not run: %s', e)
+      logging.error('HAITI: Ad-hoc feed could not run: %s', e)
     finally:
       pwm.stop()
       GPIO.cleanup()
       return 'Ok'
   else:
-    logging.warning('Invalid key for feed action!')
+    logging.warning('HAITI: Invalid key for feed action!')
     return 'Error'
 
 def valid_request(key):
@@ -41,7 +41,7 @@ def valid_request(key):
 
 @app.route("/test")
 def test():
-  logging.info('logging test!')
+  logging.info('HAITI: logging test!')
   return "Testing 1 2 3!"
 
 if __name__ == "__main__":
