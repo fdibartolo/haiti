@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, request, render_template
 import time
 import logging
 import RPi.GPIO as GPIO
@@ -20,8 +20,7 @@ def index():
 
 @app.route('/feed', methods=['POST'])
 def feed():
-  if valid_request(True):
-#  if valid_request(request.form['key']):
+  if valid_request(request.get_json()['key']):
     GPIO.setup(3, GPIO.OUT)
     pwm = GPIO.PWM(3, 50)
     pwm.start(7.5)
@@ -43,8 +42,7 @@ def feed():
     return 'Error'
 
 def valid_request(key):
-  #return key == 'haitimorfeta'
-  return True
+  return key == 'haitimorfeta'
 
 if __name__ == "__main__":
   app.run(host='0.0.0.0', port=5000, debug=True)
