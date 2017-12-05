@@ -1,6 +1,9 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, Response
 import logging
 from servo import Servo
+from importlib import import_module
+import os
+from camera_pi import Camera
 app = Flask(__name__)
 
 logging.basicConfig(filename='log/haiti.log', format='%(asctime)s %(levelname)s:%(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.DEBUG)
@@ -23,6 +26,20 @@ def feed():
 
 def valid_request(key):
   return key == 'haitimorfeta'
+
+@app.route('/video')
+def video():
+  return render_template('video.html')
+
+@app.route('/video_feed')
+def video_feed():
+  return Response(gen(Camera()), mimetype='multipart/x-mixed-replace; boundary=frame')
+
+def gen(camera):
+  while True:
+    frame = camera.get_frame()
+    yield (b'--frame\r\n'
+           b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
 @app.route("/test")
 def test():
