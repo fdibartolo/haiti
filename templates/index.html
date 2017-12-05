@@ -8,16 +8,28 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   </head>
   <body>
-    <h1>Hello, Haiti!</h1>
-
-    <h3>Logs</h3>
-    <ul>
-      {% for line in lines %}
-      <li>{{ line }}</li>
-      {% endfor %}
-    </ul>
+    <div class="container"><br>
+      <h1>Hello, Haiti!</h1>
+      <div class="row">
+        <div class="col-9">
+          <h3>Logs</h3>
+          <ul class="list-group">
+            {% for line in lines %}
+            <li class="list-group-item {{ loop.cycle('', 'list-group-item-secondary') }}">{{ line }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="col-3 text-center">
+          <br>
+          <a class="btn btn-success" href="#" role="button">Feed Now &nbsp; <span style="font-size:130%"><span class="ion-fork"></span>&nbsp;<span class="ion-knife"></span></span></a>
+          <br><br>
+          <a class="btn btn-info" href="/video" role="button">Live Video &nbsp; <span class="ion-ios-videocam" style="font-size:130%"></span></a>
+        </div>
+      </div>
+    </div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
